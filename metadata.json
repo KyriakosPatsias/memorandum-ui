@@ -1,0 +1,5 @@
+{
+  "name": "Memorandum",
+  "description": "A clean, minimal notes application with AI-powered summarization and organization.",
+  "requestFramePermissions": []
+}
