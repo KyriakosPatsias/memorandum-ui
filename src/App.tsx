@@ -76,45 +76,7 @@ export default function App() {
     return fetch(input, { ...init, headers });
   };
 
-  if (auth.isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-slate-50">
-        <Loader2 className="animate-spin text-primary" size={32} />
-      </div>
-    );
-  }
 
-  if (auth.error) {
-    return <div className="p-8 text-rose-500">Authentication Error: {auth.error.message}</div>;
-  }
-
-  if (!auth.isAuthenticated) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-slate-900 text-white relative overflow-hidden">
-        {/* Abstract background blobs */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-          <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[100px]" />
-          <div className="absolute top-[60%] -right-[10%] w-[60%] h-[60%] rounded-full bg-indigo-600/20 blur-[120px]" />
-        </div>
-        
-        <div className="relative z-10 max-w-md w-full p-8 flex flex-col items-center text-center">
-          <div className="bg-primary/20 p-4 rounded-2xl mb-6 backdrop-blur-md border border-primary/30">
-            <FileText size={48} className="text-white" />
-          </div>
-          <h1 className="text-5xl font-black mb-4 tracking-tight">Memorandum</h1>
-          <p className="text-lg text-slate-300 mb-8 font-medium">Your intelligent workspace for brilliant ideas. Sign in to access your secure notes.</p>
-          
-          <button 
-            onClick={() => auth.signinRedirect()}
-            className="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold text-lg shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
-          >
-            Sign In with Cognito
-            <Sparkles size={20} />
-          </button>
-        </div>
-      </div>
-    );
-  }
   const [searchQuery, setSearchQuery] = useState('');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [selectedNoteIds, setSelectedNoteIds] = useState<Set<string>>(new Set());
@@ -130,8 +92,10 @@ export default function App() {
   );
 
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    if (auth.isAuthenticated) {
+      fetchNotes();
+    }
+  }, [auth.isAuthenticated]);
 
   const fetchNotes = async () => {
     try {
@@ -296,6 +260,46 @@ export default function App() {
       console.error("Error creating note:", error);
     }
   };
+
+  if (auth.isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-slate-50">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </div>
+    );
+  }
+
+  if (auth.error) {
+    return <div className="p-8 text-rose-500">Authentication Error: {auth.error.message}</div>;
+  }
+
+  if (!auth.isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-slate-900 text-white relative overflow-hidden">
+        {/* Abstract background blobs */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+          <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[100px]" />
+          <div className="absolute top-[60%] -right-[10%] w-[60%] h-[60%] rounded-full bg-indigo-600/20 blur-[120px]" />
+        </div>
+        
+        <div className="relative z-10 max-w-md w-full p-8 flex flex-col items-center text-center">
+          <div className="bg-primary/20 p-4 rounded-2xl mb-6 backdrop-blur-md border border-primary/30">
+            <FileText size={48} className="text-white" />
+          </div>
+          <h1 className="text-5xl font-black mb-4 tracking-tight">Memorandum</h1>
+          <p className="text-lg text-slate-300 mb-8 font-medium">Your intelligent workspace for brilliant ideas. Sign in to access your secure notes.</p>
+          
+          <button 
+            onClick={() => auth.signinRedirect()}
+            className="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold text-lg shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+          >
+            Sign In with Cognito
+            <Sparkles size={20} />
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-background-light font-sans text-slate-900 antialiased">
