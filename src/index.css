@@ -29,3 +29,13 @@
 #multi-select-bar {
   transition: transform 0.3s ease-in-out, opacity 0.3s;
 }
+
+.drag-region {
+  -webkit-app-region: drag;
+  user-select: none;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+

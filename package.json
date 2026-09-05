@@ -1,14 +1,43 @@
 {
-  "name": "react-example",
+  "name": "memorandum",
+  "description": "A clean, modern workspace for notes with Gemini AI",
+  "author": "Memorandum",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "main": "dist-electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "clean": "rm -rf dist dist-electron release",
+    "lint": "tsc --noEmit",
+    "electron:build": "node electron/build.js",
+    "desktop:dev": "concurrently -k -s first \"vite\" \"wait-on tcp:3000 && node electron/build.js && electron .\"",
+    "desktop:build": "vite build && node electron/build.js",
+    "desktop:pack": "npm run desktop:build && electron-builder --dir",
+    "desktop:dist": "npm run desktop:build && electron-builder"
+  },
+  "build": {
+    "appId": "com.memorandum.app",
+    "productName": "Memorandum",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": ["dmg", "zip"]
+    },
+    "win": {
+      "target": ["nsis", "zip"]
+    },
+    "linux": {
+      "target": ["AppImage", "deb"]
+    }
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
@@ -25,8 +54,13 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
+    "concurrently": "^10.0.5",
+    "electron": "^44.2.0",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2",
     "tailwindcss": "^4.1.14",
     "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "wait-on": "^9.1.0"
   }
 }
