@@ -429,8 +429,8 @@ export default function App() {
         {isMac && <div className="absolute top-0 left-0 right-0 h-10 drag-region z-50" />}
 
         <div className="relative z-10 max-w-md w-full p-8 flex flex-col items-center text-center">
-          <div className="bg-primary/20 p-4 rounded-2xl mb-6 backdrop-blur-md border border-primary/30">
-            <FileText size={48} className="text-white" />
+          <div className="w-20 h-20 rounded-2xl mb-6 overflow-hidden shadow-2xl shadow-primary/40 border border-primary/30 flex items-center justify-center bg-slate-950">
+            <img src="./logo.png" alt="Memorandum Logo" className="w-full h-full object-cover" />
           </div>
           <h1 className="text-5xl font-black mb-4 tracking-tight">Memorandum</h1>
           <p className="text-lg text-slate-300 mb-8 font-medium">Your intelligent workspace for brilliant ideas. Sign in with Cognito or use local desktop storage.</p>
@@ -487,8 +487,8 @@ export default function App() {
         className={`flex-shrink-0 bg-white border-r border-slate-200 flex flex-col transition-all duration-300 ${isMac ? 'pt-8' : ''}`}
       >
         <div className={`p-6 flex items-center gap-3 drag-region ${isMac ? 'pt-2' : ''}`}>
-          <div className="bg-primary p-2 rounded-lg text-white no-drag">
-            <FileText size={24} />
+          <div className="w-9 h-9 rounded-lg overflow-hidden shadow-md shadow-primary/25 border border-primary/20 flex-shrink-0 no-drag bg-slate-950">
+            <img src="./logo.png" alt="Memorandum Logo" className="w-full h-full object-cover" />
           </div>
           {!isSidebarCollapsed && (
             <div className="flex-1 overflow-hidden">

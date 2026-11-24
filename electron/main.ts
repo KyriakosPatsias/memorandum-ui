@@ -332,6 +332,7 @@ async function createWindow() {
     minWidth: 860,
     minHeight: 560,
     title: 'Memorandum',
+    icon: path.join(__dirname, '../public/logo.png'),
     titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
     trafficLightPosition: { x: 18, y: 18 },
     backgroundColor: '#f6f6f8',
